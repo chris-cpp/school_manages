@@ -1,0 +1,41 @@
+<odoo>
+    <record id="view_subject_form" model="ir.ui.view">
+        <field name="name">subject.form</field>
+        <field name="model">schoolmanages.subject</field>
+        <field name="arch" type="xml">
+            <form string="Subject">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="subject_code"/>
+                        <field name="teacher_ids"/>
+                        <field name="viti_klasa_id"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_subject_tree" model="ir.ui.view">
+        <field name="name">subject.tree</field>
+        <field name="model">schoolmanages.subject</field>
+        <field name="arch" type="xml">
+            <tree string="Subject">
+                <field name="name"/>
+                <field name="subject_code"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+
+        <record id="action_subject" model="ir.actions.act_window">
+        <field name="name">Subjects</field>
+        <field name="res_model">schoolmanages.subject</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_school" name="School"/>
+    <menuitem id="submenu_subject" name="All Subjects" parent="menu_school" action="action_subject"/>
+</odoo>

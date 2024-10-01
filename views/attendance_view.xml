@@ -1,0 +1,87 @@
+<odoo>
+    <record id="view_attendance_form" model="ir.ui.view">
+        <field name="name">attendance.form</field>
+        <field name="model">schoolmanages.attendance</field>
+        <field name="arch" type="xml">
+            <form string="Attendance">
+                <sheet>
+                    <div class="oe_title">
+                            <label for="student_id"/>
+                            <h1>
+                                <field name="student_id" placeholder="Student"/>
+                            </h1>
+                        </div>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_attendance_tree" model="ir.ui.view">
+        <field name="name">attendance.tree</field>
+        <field name="model">schoolmanages.attendance</field>
+        <field name="arch" type="xml">
+            <tree string="Attendance">
+                <field name="student_id" optional="show"/>
+                <field name="date" optional="show"/>
+                <field name="status" optional="show"/>
+                <field name="active" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="attendance_kanban_view" model="ir.ui.view">
+            <field name="name">schoolmanages.attendance.kanban</field>
+            <field name="model">schoolmanages.attendance</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1">
+                    <field name="student_id"/>
+                    <field name="date"/>
+                    <field name="status"/>
+                    <field name="active"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong>
+                                            <field name="student_id"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <t t-if="record.date.value">
+                                    <hr class="mt8 mb8"/>
+                                    <b>Date: </b>
+                                    <field name="date"/>
+                                </t>
+                                <div><b>Status: </b>
+                                    <field name="status"/>
+                                </div>
+                                <div><b>Active: </b>
+                                    <field name="active"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+    <record id="action_attendance" model="ir.actions.act_window">
+        <field name="name">Attendance</field>
+        <field name="res_model">schoolmanages.attendance</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+
+    <menuitem id="menu_school" name="School"/>
+    <menuitem id="submenu_attendance" name="All Attendance" parent="menu_school" action="action_attendance"/>
+</odoo>

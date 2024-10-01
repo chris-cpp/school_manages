@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="action_report_grade" model="ir.actions.report">
+            <field name="name">Grade Report</field>
+            <field name="model">schoolmanages.grade</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">schoolmanages.report_grade</field>
+            <field name="report_file">student</field>
+        </record>
+
+        <template id="report_grade">
+            <t t-set="data_report_landscape" t-value="True"/>
+            <t t-set="full_width" t-value="True"/>
+            <t t-call="web.html_container">
+                <h3 t-esc="r_name"/>
+                <div>
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Studenti</th>
+                                    <th>lenda</th>
+                                    <th>nota e vazhduar</th>
+                                <th>nota provim</th>
+                                <th>nota projekt</th>
+                                <th>nota total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="o">
+                                <tr>
+                                    <td><t t-esc="o['name']"/></td>
+                                    <td><t t-esc="o['subject_id']"/></td>
+                                    <td><t t-esc="o['nota_vazhduar']"/></td>
+                                    <td><t t-esc="o['nota_provim']"/></td>
+                                    <td><t t-esc="o['nota_projekt']"/></td>
+                                    <td><t t-esc="o['nota_totale']"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

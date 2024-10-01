@@ -1,0 +1,92 @@
+<odoo>
+    <record id="view_student_form" model="ir.ui.view">
+        <field name="name">student.form</field>
+        <field name="model">schoolmanages.student</field>
+        <field name="arch" type="xml">
+            <form string="Student">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="nr_amzes"/>
+                            <field name="birth_date"/>
+                        </group>
+                        <group>
+                            <field name="address"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_student_tree" model="ir.ui.view">
+        <field name="name">student.tree</field>
+        <field name="model">schoolmanages.student</field>
+        <field name="arch" type="xml">
+            <tree string="Student">
+                <field name="name" optional="show"/>
+                <field name="nr_amzes" optional="show"/>
+                <field name="birth_date" optional="show"/>
+                <field name="address" optional="show"/>
+                <field name="status" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="student_kanban_view" model="ir.ui.view">
+            <field name="name">schoolmanages.student.kanban</field>
+            <field name="model">schoolmanages.student</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1">
+                    <field name="name"/>
+                    <field name="nr_amzes"/>
+                    <field name="birth_date"/>
+                    <field name="address"/>
+                    <field name="status"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong>
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <t t-if="record.nr_amzes.value">
+                                    <hr class="mt8 mb8"/>
+                                    <b>Nr Amzes: </b>
+                                    <field name="nr_amzes"/>
+                                </t>
+                                <div><b>Birth Date: </b>
+                                    <field name="birth_date"/>
+                                </div>
+                                <div><b>Address: </b>
+                                    <field name="address"/>
+                                </div>
+                                <div><b>Status: </b>
+                                    <field name="status"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+    <record id="action_student" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">schoolmanages.student</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <menuitem id="menu_school" name="School"/>
+    <menuitem id="submenu_student" name="All Students" parent="menu_school" action="action_student"/>
+</odoo>

@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+    <!-- Tree View Definition -->
+    <record id="view_viti_klasa_tree" model="ir.ui.view">
+        <field name="name">viti.klasa.tree</field>
+        <field name="model">schoolmanages.viti.klasa</field>
+        <field name="arch" type="xml">
+            <tree string="Year Classes">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View Definition -->
+    <record id="view_viti_klasa_form" model="ir.ui.view">
+        <field name="name">viti.klasa.form</field>
+        <field name="model">schoolmanages.viti.klasa</field>
+        <field name="arch" type="xml">
+            <form string="Year Class">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action Definition -->
+    <record id="action_viti_klasa" model="ir.actions.act_window">
+        <field name="name">Year Classes</field>
+        <field name="res_model">schoolmanages.viti.klasa</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_viti_klasa_tree"/>
+    </record>
+
+            <menuitem id="menu_school" name="School"/>
+    <menuitem id="submenu_viti_klasa" name="VitiKlasa" parent="menu_school" action="action_viti_klasa"/>
+
+    </data>
+</odoo>

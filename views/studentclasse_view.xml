@@ -1,0 +1,50 @@
+<odoo>
+    <record id="view_student_class_connection_tree" model="ir.ui.view">
+        <field name="name">student.class.connection.tree</field>
+        <field name="model">schoolmanages.student.class.connection</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="student_id"/>
+                <field name="class_id"/>
+                <field name="academic_year_id"/>
+                <field name="viti_klasa_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_student_class_connection_form" model="ir.ui.view">
+        <field name="name">student.class.connection.form</field>
+        <field name="model">schoolmanages.student.class.connection</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="student_id"/>
+                    <field name="class_id"/>
+                    <field name="academic_year_id"/>
+                    <field name="viti_klasa_id"/>
+                </group>
+                <footer>
+<!--                    <button  string="Save" type="object" class="oe_highlight"/>-->
+<!--                    <button string="Cancel" class="oe_link" special="cancel"/>-->
+                </footer>
+            </form>
+        </field>
+    </record>
+
+<record id="action_student_class_connection" model="ir.actions.act_window">
+    <field name="name">Student Class Connections</field>
+    <field name="res_model">schoolmanages.student.class.connection</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+            Create the first connection
+        </p>
+    </field>
+</record>
+
+        <menuitem id="menu_school" name="School"/>
+    <menuitem id="menu_student_class_connection"
+              name="Student Class Connections"
+              parent="menu_school"
+              action="action_student_class_connection" />
+</odoo>

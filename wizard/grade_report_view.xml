@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_grade_report" model="ir.ui.view">
+            <field name="name">Grades Report</field>
+            <field name="model">grade.report</field>
+            <field name="arch" type="xml">
+                <form string="Grade Report">
+                    <group>
+                        <field name="student_id"/>
+                        <field name="subject_id"/>
+                         <field name="class_id"/>
+                        <field name="viti_akademik_id"/>
+<!--                        <field name="end_date"/>-->
+                    </group>
+                    <footer>
+                        <button name="print_report"
+                                string="Print"
+                                type="object"
+                                data-hotkey="q"
+                                class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_grade_report" model="ir.actions.act_window">
+            <field name="name">Grade Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grade.report</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_grade_report"/>
+            <field name="target">new</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="reports_root" name="Reports" parent="menu_school" sequence="100"/>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="menu_student_report" name="Raporti Grade" parent="reports_root"
+                  action="action_grade_report" sequence="80"/>
+
+    </data>
+</odoo>
