@@ -1,0 +1,31 @@
+<odoo>
+    <!-- Wizard View -->
+    <record id="view_student_grade_report_wizard" model="ir.ui.view">
+        <field name="name">student.grade.report.wizard.form</field>
+        <field name="model">student.grade.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Student Grade Report">
+                <group>
+                    <field name="student_id"/>
+                </group>
+                <footer>
+                    <button type="object" name="action_generate_report" string="Generate Report" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard Action -->
+    <record id="action_student_grade_report_wizard" model="ir.actions.act_window">
+        <field name="name">Student Grade Report Wizard</field>
+        <field name="res_model">student.grade.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Item to Access the Wizard -->
+    <menuitem id="menu_student_grade_report" name="Raport Notash"
+              parent="reports_root"
+              action="action_student_grade_report_wizard"/>
+</odoo>

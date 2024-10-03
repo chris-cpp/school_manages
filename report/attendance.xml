@@ -1,0 +1,39 @@
+<odoo>
+    <!-- Report Action -->
+    <record id="action_report_attendance" model="ir.actions.report">
+        <field name="name">Attendance Report</field>
+        <field name="model">schoolmanages.attendance</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">schoolmanages.report_attendance</field>
+        <field name="report_file">schoolmanages.report_attendance</field>
+    </record>
+
+    <!-- QWeb Report Template -->
+    <template id="report_attendance">
+        <t t-call="web.html_container">
+            <div class="page">
+                <h3 t-esc="r_name"/> <!-- Title of the report -->
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Teacher</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="attendance">
+                            <tr>
+                                <td t-esc="attendance['student_name']"/>  <!-- Access student name -->
+                                <td t-esc="attendance['date']"/>          <!-- Access attendance date -->
+                                <td t-esc="attendance['status']"/>        <!-- Access attendance status -->
+                                <td t-esc="attendance['teacher_name']"/>  <!-- Access teacher's name -->
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

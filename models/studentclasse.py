@@ -8,9 +8,9 @@ class StudentClassConnection(models.Model):
     _rec_name = 'student_id'
 
     student_id = fields.Many2one('schoolmanages.student', string='Student', required=True)
-    class_id = fields.Many2one('schoolmanages.class', string='Class', required=True)
-    academic_year_id = fields.Many2one('schoolmanages.academic.year', string='Academic Year', required=True)
-    viti_klasa_id = fields.Many2one('schoolmanages.viti.klasa',string='Viti', required=True)
+    class_id = fields.Many2one('schoolmanages.class', string='Klasa', required=True)
+    academic_year_id = fields.Many2one('schoolmanages.academic.year', string='Viti akademik', required=True)
+    viti_klasa_id = fields.Many2one('schoolmanages.viti.klasa',string='Viti Klasa', required=True)
 
     # Optional: Add a constraint to ensure a student can only be enrolled in a class for a specific academic year
     _sql_constraints = [
@@ -35,3 +35,11 @@ class StudentClassConnection(models.Model):
 
             if student_count >= 30:
                 raise ValidationError(f'The class {record.class_id.name} already has 30 students for the academic year {record.academic_year_id.name}. You cannot add more students.')
+
+    @api.onchange('class_id')
+    def _onchange_class_id(self):
+        if self.class_id:
+            self.viti_klasa_id = self.class_id.viti_klasa_id  # Automatically fill viti_klasa_id
+        else:
+            self.viti_klasa_id = False  # Clear the field if no class is selected
+

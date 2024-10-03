@@ -10,7 +10,7 @@ class Grade(models.Model):
     _rec_name = 'student_id'
 
     student_id = fields.Many2one('schoolmanages.student', string='Student', required=True)
-    subject_id = fields.Many2one('schoolmanages.subject', string='Subject')
+    subject_id = fields.Many2one('schoolmanages.subject', string='Lenda')
     note_vazhduar = fields.Integer(string='Note Vazhduar')
     note_provim = fields.Integer(string='Note Provim')
     note_projekt = fields.Integer(string='Note Projekt')
@@ -22,9 +22,10 @@ class Grade(models.Model):
         ('T3', 'Tremujori i III')
     ], string='Periudha', compute='_compute_periudha', store=True)
     academic_year_id = fields.Many2one('schoolmanages.academic.year', compute='_compute_academic_year',
-                                       string='Academic Year', store=True)
+                                       string='Viti Akademik', store=True)
     active = fields.Boolean(string='Active', default=True)
-    class_id = fields.Many2one('schoolmanages.class', string='klasa', store=True)
+    class_id = fields.Many2one('schoolmanages.class', string='Klasa', store=True)
+    viti_klasa_id = fields.Many2one('schoolmanages.viti.klasa', string='Viti Klasa', store=True)
 
     @api.depends('note_vazhduar', 'note_provim', 'note_projekt')
     def _compute_totale(self):
@@ -55,21 +56,16 @@ class Grade(models.Model):
         current_date = date.today()
         AcademicYear = self.env['schoolmanages.academic.year']
         for record in self:
-            # Find the academic year where the current date falls within the start and end date
             academic_year = AcademicYear.search([
                 ('start_date', '<=', current_date),
                 ('end_date', '>=', current_date),
                 ('status', '=', 'aktiv')
             ], limit=1)
-            # if not academic_year:
-            #     record.academic_year_id = False
-            #     continue
             record.academic_year_id = academic_year
 
     @api.onchange('student_id', 'academic_year_id')
     def _onchange_student_id(self):
         if self.student_id and self.academic_year_id:
-            # Search for the student's class connection in the academic year
             connection = self.env['schoolmanages.student.class.connection'].search([
                 ('student_id', '=', self.student_id.id),
                 ('academic_year_id', '=', self.academic_year_id.id)
@@ -86,7 +82,7 @@ class Grade(models.Model):
                     }
                 }
         else:
-            self.class_id = False  # Clear the class_id if either student or academic year is not selected
+            self.class_id = False
 
     @api.constrains('note_vazhduar', 'note_provim', 'note_projekt')
     def _check_nota_range(self):
@@ -98,19 +94,19 @@ class Grade(models.Model):
             if record.note_projekt < 4 or record.note_projekt > 10:
                 raise ValidationError("Note Projekt duhet te jete ndermjet  4 and 10.")
 
-    @api.onchange('student_id')
+    @api.onchange('class_id')
     def _onchange_class_id(self):
         if self.class_id:
-            # Apply domain to filter subjects related to the same Viti Klasa ID as the class
             viti_klasa_id = self.class_id.viti_klasa_id
-            if viti_klasa_id.name == 'Viti I':  # Assuming Viti I is the name of the year
+            self.viti_klasa_id = viti_klasa_id.id
+            if viti_klasa_id:
                 return {
                     'domain': {
                         'subject_id': [('viti_klasa_id', 'in', viti_klasa_id.id)]
                     }
                 }
             else:
-                self.subject_id = False  # Clear subject if no matching Viti Klasa
+                self.subject_id = False
                 return {
                     'domain': {
                         'subject_id': []
@@ -118,9 +114,27 @@ class Grade(models.Model):
                 }
         else:
             self.subject_id = False
+            self.viti_klasa_id = False
             return {
                 'domain': {
                     'subject_id': []
+                }
+            }
+
+    @api.onchange('class_id')
+    def _onchange_class_id_subject(self):
+        if self.class_id:
+            self.viti_klasa_id = self.class_id.viti_klasa_id.id
+            return {
+                'domain': {
+                    'subject_id': [('viti_klasa_id', '=', self.viti_klasa_id)]
+                }
+            }
+        else:
+            self.viti_klasa_id = False
+            return {
+                'domain': {
+                    'subject_id': [('id', '=', False)]
                 }
             }
 

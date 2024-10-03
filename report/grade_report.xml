@@ -1,48 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <data>
+    <!-- Report Action -->
+    <record id="action_report_student_grade" model="ir.actions.report">
+        <field name="name">Student Grade Report</field>
+        <field name="model">schoolmanages.grade</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">schoolmanages.report_grade</field>
+        <field name="report_file">schoolmanages.report_grade</field>
+    </record>
 
-        <record id="action_report_grade" model="ir.actions.report">
-            <field name="name">Grade Report</field>
-            <field name="model">schoolmanages.grade</field>
-            <field name="report_type">qweb-html</field>
-            <field name="report_name">schoolmanages.report_grade</field>
-            <field name="report_file">student</field>
-        </record>
-
-        <template id="report_grade">
-            <t t-set="data_report_landscape" t-value="True"/>
-            <t t-set="full_width" t-value="True"/>
-            <t t-call="web.html_container">
+    <!-- QWeb Report Template -->
+    <template id="report_grade">
+        <t t-call="web.html_container">
+            <div class="page">
                 <h3 t-esc="r_name"/>
-                <div>
-                    <table class="table table-condensed table-bordered">
-                        <thead>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+<!--                            <th>Student Name</th>-->
+                            <th>Lenda</th>
+                            <th>Nota e Vazhduar</th>
+                            <th>Nota Provim</th>
+                            <th>Nota Projekt</th>
+<!--                            <th>Academic Year</th>-->
+                            <th>Nota Totale</th>
+<!--                            <th>Period</th>-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="grade">
                             <tr>
-                                <th>Studenti</th>
-                                    <th>lenda</th>
-                                    <th>nota e vazhduar</th>
-                                <th>nota provim</th>
-                                <th>nota projekt</th>
-                                <th>nota total</th>
+<!--                                <td t-esc="grade['student_name']"/>   &lt;!&ndash; Access student name &ndash;&gt;-->
+                                <td t-esc="grade['subject_name']"/>    <!-- Access subject name -->
+                                <td t-esc="grade['nota_vazhduar']"/>
+                                <td t-esc="grade['nota_provim']"/>
+                                <td t-esc="grade['nota_projekt']"/>
+<!--                                <td t-esc="grade['academic_year']"/>   &lt;!&ndash; Access academic year &ndash;&gt;-->
+                                <td t-esc="grade['total_grade']"/>      <!-- Access total grade -->
+<!--                                <td t-esc="grade['periudha']"/>        &lt;!&ndash; Access period &ndash;&gt;-->
                             </tr>
-                        </thead>
-                        <tbody>
-                            <t t-foreach="docs" t-as="o">
-                                <tr>
-                                    <td><t t-esc="o['name']"/></td>
-                                    <td><t t-esc="o['subject_id']"/></td>
-                                    <td><t t-esc="o['nota_vazhduar']"/></td>
-                                    <td><t t-esc="o['nota_provim']"/></td>
-                                    <td><t t-esc="o['nota_projekt']"/></td>
-                                    <td><t t-esc="o['nota_totale']"/></td>
-                                </tr>
-                            </t>
-                        </tbody>
-                    </table>
-                </div>
-            </t>
-        </template>
-
-    </data>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
 </odoo>

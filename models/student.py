@@ -7,25 +7,20 @@ class Student(models.Model):
     _name = 'schoolmanages.student'
     _description = 'Student'
 
-    name = fields.Char(string='Name', required=True)
-    nr_amzes = fields.Char(string='Student ID', required=True, unique=True)
-    birth_date = fields.Date(string='Birth Date')
-    # class_ids = fields.Many2many('schoolmanage.class',
-    #                               'student_class_rel',
-    #                               'student_id',
-    #                               'class_id',
-    #                               string='Classes')
-    connection_ids = fields.One2many('schoolmanages.student.class.connection', 'student_id', string='Class Connections')
-    address = fields.Char(string='Address', required=True)
+    name = fields.Char(string='Emri', required=True)
+    nr_amzes = fields.Char(string='Nr Amzes', required=True, unique=True)
+    birth_date = fields.Date(string='Ditelindja')
+    # connection_ids = fields.One2many('schoolmanages.student.class.connection', 'student_id', string='Class Connections')
+    address = fields.Char(string='Adresa', required=True)
     status = fields.Selection([('kalues', 'Kalues'), ('ngeles', 'Ngeles'),('diplomuar', 'Diplomuar'),('regjistruar','Regjistruar')],string='Status')
 
 
 
-    @api.constrains('class_ids')
-    def _check_classroom_student_limit(self):
-        for student in self:
-            if student.class_ids and len(student.class_ids.student_ids) >= 30:
-                raise ValidationError("The classroom already has 30 students. Cannot add more.")
+    # @api.constrains('class_ids')
+    # def _check_classroom_student_limit(self):
+    #     for student in self:
+    #         if student.class_ids and len(student.class_ids.student_ids) >= 30:
+    #             raise ValidationError("The classroom already has 30 students. Cannot add more.")
 
 
     @api.constrains('birth_date')
@@ -36,6 +31,6 @@ class Student(models.Model):
                 if (date.today().month, date.today().day) < (student.birth_date.month, student.birth_date.day):
                     age -= 1  # Adjust for birthday not yet occurred this year
                 if age < 14:
-                    raise ValidationError("The student must be older than 14 years.")
+                    raise ValidationError("Studenti duhet te jete mbi 14 vjec.")
 
 

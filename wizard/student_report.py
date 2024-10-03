@@ -5,7 +5,7 @@ class InvoiceReport(models.TransientModel):
     _name = 'student.report'
     _description = 'Student Report'
 
-    student_ids = fields.Many2one(comodel_name='schoolmanages.student', string='Products')
+    student_ids = fields.Many2one(comodel_name='schoolmanages.student', string='Studenti')
     status = fields.Selection(
         [('kalues', 'Kalues'), ('ngeles', 'Ngeles'), ('diplomuar', 'Diplomuar'), ('regjistruar', 'Regjis')],
         string='Status')

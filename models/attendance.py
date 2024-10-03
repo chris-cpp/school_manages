@@ -11,3 +11,4 @@ class Attendance(models.Model):
     date = fields.Date(string='Date', required=True, default=lambda self: fields.Date.context_today(self))
     status = fields.Selection([('present', 'Present'), ('absent', 'Absent')], string='Status', required=True)
     active = fields.Boolean(string='Active', default=True)
+    teacher_id = fields.Many2one('schoolmanages.teacher', string='Mesuesi')

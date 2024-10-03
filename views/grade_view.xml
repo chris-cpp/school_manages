@@ -13,7 +13,7 @@
                     </div>
                     <group>
                         <group>
-                            <field name="subject_id"/>
+                            <field name="subject_id" domain="[('viti_klasa_id', '=', viti_klasa_id)]"/>
                             <field name="note_vazhduar"/>
                             <field name="note_provim"/>
                             <field name="note_projekt"/>
@@ -23,6 +23,7 @@
                             <field name="academic_year_id"/>
                             <field name="class_id"/>
                             <field name="nota_totale"/>
+                            <field name="viti_klasa_id"/>
                             <field name="active"/>
                         </group>
                     </group>

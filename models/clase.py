@@ -6,7 +6,7 @@ class SchoolClass(models.Model):
     _name = 'schoolmanages.class'
     _description = 'Class'
 
-    name = fields.Char(string='Class Name', required=True)
+    name = fields.Char(string='Klasa', required=True)
     teacher_id = fields.Many2one('schoolmanages.teacher', string='Class Teacher')
     # student_ids = fields.Many2many('schoolmanages.student',
     #                                 'student_class_rel',
@@ -21,7 +21,7 @@ class SchoolClass(models.Model):
     def _check_student_limit(self):
         for classroom in self:
             if len(classroom.student_ids) >= 30:
-                raise ValidationError("The number of students in the classroom cannot exceed 30.")
+                raise ValidationError("Nje klase mund te kete deri ne 30 nxenes.")
 
     @api.constrains('teacher_id')
     def _check_teacher_limit(self):
@@ -30,4 +30,4 @@ class SchoolClass(models.Model):
                 other_classes = self.search([('teacher_id', '=', classroom.teacher_id.id), ('id', '!=', classroom.id)])
                 if other_classes:
                     raise ValidationError(
-                        f"The teacher '{classroom.teacher_id.name}' is already assigned to another class.")
+                        f"Mesuesi '{classroom.teacher_id.name}' eshte i lidhur me nje klase tjeter.")

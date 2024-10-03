@@ -36,7 +36,7 @@
         <!-- This Menu Item must have a parent and an action -->
         <menuitem id="reports_root" name="Reports" parent="menu_school" sequence="100"/>
         <!-- This Menu Item must have a parent and an action -->
-        <menuitem id="menu_student_report" name="Raporti Student" parent="reports_root"
+        <menuitem id="menu_student_report" name="Raport Studentesh" parent="reports_root"
                   action="action_student_report" sequence="60"/>
 
     </data>
