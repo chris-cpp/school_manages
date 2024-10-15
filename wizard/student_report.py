@@ -7,7 +7,7 @@ class InvoiceReport(models.TransientModel):
 
     student_ids = fields.Many2one(comodel_name='schoolmanages.student', string='Studenti')
     status = fields.Selection(
-        [('kalues', 'Kalues'), ('ngeles', 'Ngeles'), ('diplomuar', 'Diplomuar'), ('regjistruar', 'Regjis')],
+        [('kalues', 'Kalues'), ('ngeles', 'Ngeles'), ('diplomuar', 'Diplomuar'), ('regjistruar', 'Regjistruar'),('ne progres','Ne progres')],
         string='Status')
 
     # start_date = fields.Date(default=fields.Datetime.now, string='Start date', required=True)
@@ -21,3 +21,4 @@ class InvoiceReport(models.TransientModel):
             # "end_date": self.end_date,
         }
         return self.env.ref('schoolmanages.action_report_student').report_action(None, data=data)
+

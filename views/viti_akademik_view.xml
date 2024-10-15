@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Form View for Academic Year -->
     <record id="view_academic_year_form" model="ir.ui.view">
         <field name="name">academic.year.form</field>
         <field name="model">schoolmanages.academic.year</field>
@@ -9,33 +8,41 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="start_date"/>
-                        <field name="end_date"/>
-                        <field name="status"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
 
-    <!-- Tree View for Academic Year -->
     <record id="view_academic_year_tree" model="ir.ui.view">
         <field name="name">academic.year.tree</field>
         <field name="model">schoolmanages.academic.year</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="start_date"/>
-                <field name="end_date"/>
-                <field name="status"/>
+                <field name="name" optional="show"/>
+                <field name="start_date" optional="show"/>
+                <field name="end_date" optional="show"/>
+                <field name="status" optional="show" widget="badge"/>
+                <field name="activity_ids" widget="list_activity" optional="show"/>
             </tree>
         </field>
     </record>
 
-    <!-- Action for Academic Year -->
     <record id="action_academic_year" model="ir.actions.act_window">
-        <field name="name">Academic Years</field>
+        <field name="name">Viti Akademik</field>
         <field name="res_model">schoolmanages.academic.year</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_academic_year_tree"/>
@@ -46,11 +53,10 @@
         </field>
     </record>
 
-    <!-- Menu Item for Academic Year -->
     <menuitem id="menu_school" name="School"/>
 
     <menuitem id="menu_academic_year"
-              name="Academic Years"
+              name="Viti Akademik"
               parent="menu_school"
-              action="action_academic_year"/>
+              action="action_academic_year" sequence="8"/>
 </odoo>

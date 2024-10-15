@@ -6,11 +6,12 @@ class StudentClassConnection(models.Model):
     _name = 'schoolmanages.student.class.connection'
     _description = 'Student Class Connection'
     _rec_name = 'student_id'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    student_id = fields.Many2one('schoolmanages.student', string='Student', required=True)
-    class_id = fields.Many2one('schoolmanages.class', string='Klasa', required=True)
-    academic_year_id = fields.Many2one('schoolmanages.academic.year', string='Viti akademik', required=True)
-    viti_klasa_id = fields.Many2one('schoolmanages.viti.klasa',string='Viti Klasa', required=True)
+    student_id = fields.Many2one('schoolmanages.student', string='Student', required=True, tracking=True)
+    class_id = fields.Many2one('schoolmanages.class', string='Klasa', required=True, tracking=True)
+    academic_year_id = fields.Many2one('schoolmanages.academic.year', string='Viti akademik', required=True, tracking=True)
+    viti_klasa_id = fields.Many2one('schoolmanages.viti.klasa',string='Viti Klasa', required=True, tracking=True)
 
     # Optional: Add a constraint to ensure a student can only be enrolled in a class for a specific academic year
     _sql_constraints = [

@@ -3,7 +3,7 @@
         <field name="name">teacher.form</field>
         <field name="model">schoolmanages.teacher</field>
         <field name="arch" type="xml">
-            <form string="Teachers">
+            <form string="Profesoret">
                 <sheet>
                     <div class="oe_title">
                         <label for="name"/>
@@ -14,12 +14,23 @@
                     <group>
                         <group>
                             <field name="teacher_nid"/>
+                            <field name="subject_ids"/>
+                            <field name="address"/>
+                            <field name="phone"/>
                         </group>
                         <group>
                             <field name="active"/>
+                            <field name="salary"/>
+                            <field name="email"/>
+                            <field name="date_of_joining"/>
                         </group>
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
@@ -28,20 +39,44 @@
         <field name="name">teacher.tree</field>
         <field name="model">schoolmanages.teacher</field>
         <field name="arch" type="xml">
-            <tree string="Teacher">
+            <tree string="Profesoret">
                 <field name="name" optional="show"/>
                 <field name="teacher_nid" optional="show"/>
+                <field name="email" optional="show"/>
+                <field name="phone" optional="show"/>
+                <field name="salary" optional="show"/>
+                <field name="activity_ids" widget="list_activity" optional="show"/>
+                <field name="date_of_joining" optional="show"/>
                 <field name="active" optional="show"/>
+                <field name="address" optional="show"/>
+                <field name="subject_ids" optional="show"/>
             </tree>
         </field>
     </record>
 
-        <record id="action_teacher" model="ir.actions.act_window">
-        <field name="name">Teachers</field>
+    <record id="teacher_view_activity" model="ir.ui.view">
+        <field name="name">schoolmanages.teacher.activity</field>
+        <field name="model">schoolmanages.teacher</field>
+        <field name="arch" type="xml">
+            <activity string="Profesoret">
+                <field name="name"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <div class="ms-2">
+                            <field name="name" display="full" class="o_text_block"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+
+    <record id="action_teacher" model="ir.actions.act_window">
+        <field name="name">Profesoret</field>
         <field name="res_model">schoolmanages.teacher</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,activity</field>
     </record>
 
     <menuitem id="menu_school" name="School"/>
-    <menuitem id="submenu_teacher" name="All Teachers" parent="menu_school" action="action_teacher"/>
+    <menuitem id="submenu_teacher" name="Profesoret" parent="menu_school" action="action_teacher" sequence="2"/>
 </odoo>

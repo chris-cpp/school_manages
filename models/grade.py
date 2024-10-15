@@ -7,25 +7,26 @@ from odoo.exceptions import ValidationError
 class Grade(models.Model):
     _name = 'schoolmanages.grade'
     _description = 'Grade'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'student_id'
 
-    student_id = fields.Many2one('schoolmanages.student', string='Student', required=True)
-    subject_id = fields.Many2one('schoolmanages.subject', string='Lenda')
-    note_vazhduar = fields.Integer(string='Note Vazhduar')
-    note_provim = fields.Integer(string='Note Provim')
-    note_projekt = fields.Integer(string='Note Projekt')
-    nota_totale = fields.Float(string='Nota', compute='_compute_totale', store=True)
+    student_id = fields.Many2one('schoolmanages.student', string='Student', tracking=True, required=True)
+    subject_id = fields.Many2one('schoolmanages.subject', string='Lenda', tracking=True)
+    note_vazhduar = fields.Integer(string='Note Vazhduar', tracking=True)
+    note_provim = fields.Integer(string='Note Provim', tracking=True)
+    note_projekt = fields.Integer(string='Note Projekt', tracking=True)
+    nota_totale = fields.Float(string='Nota', compute='_compute_totale', store=True, tracking=True)
     # date = fields.date.today()
     periudha = fields.Selection([
         ('T1', 'Tremujori i I'),
         ('T2', 'Tremujori i II'),
         ('T3', 'Tremujori i III')
-    ], string='Periudha', compute='_compute_periudha', store=True)
+    ], string='Periudha', compute='_compute_periudha', tracking=True, store=True)
     academic_year_id = fields.Many2one('schoolmanages.academic.year', compute='_compute_academic_year',
-                                       string='Viti Akademik', store=True)
+                                       string='Viti Akademik', store=True, tracking=True)
     active = fields.Boolean(string='Active', default=True)
-    class_id = fields.Many2one('schoolmanages.class', string='Klasa', store=True)
-    viti_klasa_id = fields.Many2one('schoolmanages.viti.klasa', string='Viti Klasa', store=True)
+    class_id = fields.Many2one('schoolmanages.class', string='Klasa', tracking=True, store=True)
+    viti_klasa_id = fields.Many2one('schoolmanages.viti.klasa', string='Viti Klasa', tracking=True, store=True)
 
     @api.depends('note_vazhduar', 'note_provim', 'note_projekt')
     def _compute_totale(self):

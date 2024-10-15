@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="prinderit_form_view" model="ir.ui.view">
+            <field name="name">schoolmanages.prinderit.form</field>
+            <field name="model">schoolmanages.prinderit</field>
+            <field name="arch" type="xml">
+                <form string="Prinderit">
+                    <header>
+                        <button name="action_share_whatsapp" string="Message Parent" class="oe_highlight"
+                                icon="fa-whatsapp" type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" placeholder="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="email"/>
+                                <field name="phone"/>
+                            </group>
+                            <group>
+                                <field name="address"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Femija">
+                                <field name="student_ids">
+                                    <tree string="Femija">
+                                        <field name="name"/>
+                                        <field name="birth_date"/>
+                                        <field name="phone"/>
+                                        <field name="email"/>
+                                        <field name="status"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="prinderit_tree_view" model="ir.ui.view">
+            <field name="name">schoolmanages.prinderit.tree</field>
+            <field name="model">schoolmanages.prinderit</field>
+            <field name="arch" type="xml">
+                <tree string="Prinderit">
+                    <field name="name" optional="show"/>
+                    <field name="email" optional="show"/>
+                    <field name="phone" optional="show"/>
+                    <field name="student_ids" optional="show"/>
+                    <field name="address" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="prinderit_kanban_view" model="ir.ui.view">
+            <field name="name">schoolmanages.prinderit.kanban</field>
+            <field name="model">schoolmanages.prinderit</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="phone"/>
+                    <field name="student_ids"/>
+                    <field name="address"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong>
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <t t-if="record.email.value">
+                                    <hr class="mt8 mb8"/>
+                                    <b>Email:</b>
+                                    <field name="email"/>
+                                </t>
+                                <div>
+                                    <b>phone:</b>
+                                    <field name="phone"/>
+                                </div>
+                                <div>
+                                    <b>Address:</b>
+                                    <field name="address"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="prinderit_act_window" model="ir.actions.act_window">
+            <field name="name">Prinderit</field>
+            <field name="res_model">schoolmanages.prinderit</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new Prinderit.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_school" name="School"/>
+        <menuitem id="submenu_prinderit" name="Prinderit" parent="menu_school" action="prinderit_act_window" sequence="3"/>
+
+    </data>
+</odoo>

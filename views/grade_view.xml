@@ -3,7 +3,7 @@
         <field name="name">grade.form</field>
         <field name="model">schoolmanages.grade</field>
         <field name="arch" type="xml">
-            <form string="Grade">
+            <form string="Notat">
                 <sheet>
                     <div class="oe_title">
                         <label for="student_id"/>
@@ -28,6 +28,11 @@
                         </group>
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
@@ -36,12 +41,13 @@
         <field name="name">grade.tree</field>
         <field name="model">schoolmanages.grade</field>
         <field name="arch" type="xml">
-            <tree string="Grade">
+            <tree string="Notat">
                 <field name="student_id" optional="show"/>
                 <field name="subject_id" optional="show"/>
                 <field name="nota_totale" optional="show"/>
                 <field name="active" optional="show"/>
                 <field name="note_vazhduar" optional="show"/>
+                <field name="activity_ids" widget="list_activity" optional="show"/>
                 <field name="class_id" optional="show"/>
                 <field name="academic_year_id" optional="show"/>
                 <field name="periudha" optional="show"/>
@@ -51,13 +57,24 @@
         </field>
     </record>
 
+    <record id="grade_search_view" model="ir.ui.view">
+        <field name="name">schoolmanages.grade.search</field>
+        <field name="model">schoolmanages.grade</field>
+        <field name="arch" type="xml">
+            <search>
+                <searchpanel>
+                    <field name="periudha" icon="fa-list" select="multi" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
 
     <record id="action_grade" model="ir.actions.act_window">
-        <field name="name">Grades</field>
+        <field name="name">Notat</field>
         <field name="res_model">schoolmanages.grade</field>
         <field name="view_mode">tree,form</field>
     </record>
 
     <menuitem id="menu_school" name="School"/>
-    <menuitem id="submenu_grade" name="All Grades" parent="menu_school" action="action_grade"/>
+    <menuitem id="submenu_grade" name="Notat" parent="menu_school" action="action_grade" sequence="6"/>
 </odoo>

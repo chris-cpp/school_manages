@@ -5,9 +5,10 @@
             <field name="name">schoolmanages.class.subject.tree</field>
             <field name="model">schoolmanages.class.subject</field>
             <field name="arch" type="xml">
-                <tree string="Class Subjects">
+                <tree string="Lendet e Klases">
                     <field name="class_id" optional="show"/>
                     <field name="subject_id" optional="show"/>
+                    <field name="activity_ids" widget="list_activity" optional="show"/>
                     <field name="viti_klasa_id" optional="show"/>
                 </tree>
             </field>
@@ -17,7 +18,7 @@
             <field name="name">schoolmanages.class.subject.form</field>
             <field name="model">schoolmanages.class.subject</field>
             <field name="arch" type="xml">
-                <form string="Class Subject">
+                <form string="Lendet e Klases">
                     <sheet>
                         <div class="oe_title">
                             <label for="class_id"/>
@@ -34,24 +35,28 @@
                             </group>
                         </group>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
 
         <record id="action_class_subject" model="ir.actions.act_window">
-            <field name="name">Class Subjects</field>
+            <field name="name">Lendet e Klases</field>
             <field name="res_model">schoolmanages.class.subject</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_class_subject_tree"/>
         </record>
 
-        <!-- Menu Item for Academic Year -->
         <menuitem id="menu_school" name="School"/>
 
         <menuitem id="menu_class_subjects"
-                  name="ClassSubject"
+                  name="Lendet e Klases"
                   parent="menu_school"
-                  action="action_class_subject"/>
+                  action="action_class_subject" sequence="12"/>
 
     </data>
 </odoo>

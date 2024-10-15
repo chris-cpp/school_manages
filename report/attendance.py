@@ -15,7 +15,7 @@ class SchoolmanageReportAttendance(models.AbstractModel):
         # Prepare the domain for fetching attendance records
         domain = []
         if student_ids:
-            domain.append(('student_id', 'in', student_ids))
+            domain.append(('student_id', '=', student_ids))
         if start_date:
             domain.append(('date', '>=', start_date))
         if end_date:

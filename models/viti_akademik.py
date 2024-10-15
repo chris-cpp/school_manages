@@ -6,11 +6,12 @@ from datetime import date
 class AcademicYear(models.Model):
     _name = 'schoolmanages.academic.year'
     _description = 'Academic Year'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string='Viti Akademik', required=True)
-    start_date = fields.Date(string='Date Fillimi', required=True)
-    end_date = fields.Date(string='Date Mbarimi', required=True)
-    status = fields.Selection([('aktiv','Aktiv'),('jo aktiv','Jo aktiv')])
+    name = fields.Char(string='Viti Akademik', required=True, tracking=True)
+    start_date = fields.Date(string='Date Fillimi', required=True, tracking=True)
+    end_date = fields.Date(string='Date Mbarimi', required=True, tracking=True)
+    status = fields.Selection([('aktiv','Aktiv'),('jo aktiv','Jo aktiv')], tracking=True)
 
     @api.constrains('start_date', 'end_date')
     def _check_dates(self):

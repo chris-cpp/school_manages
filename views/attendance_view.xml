@@ -3,14 +3,22 @@
         <field name="name">attendance.form</field>
         <field name="model">schoolmanages.attendance</field>
         <field name="arch" type="xml">
-            <form string="Attendance">
+            <form string="Frekuentimi">
+                <header>
+                    <button name="action_present" string="Present" type="object"
+                            class="btn btn-success" data-hotkey="f"/>
+                    <button name="action_absent" string="Absent" type="object"
+                            class="btn btn-warning" data-hotkey="x"/>
+                    <field name="status" widget="statusbar" nolabel="1"
+                           statusbar_visible="present,absent"/>
+                </header>
                 <sheet>
                     <div class="oe_title">
-                            <label for="student_id"/>
-                            <h1>
-                                <field name="student_id" placeholder="Student"/>
-                            </h1>
-                        </div>
+                        <label for="student_id"/>
+                        <h1>
+                            <field name="student_id" placeholder="Student"/>
+                        </h1>
+                    </div>
                     <group>
                         <group>
                             <field name="date"/>
@@ -22,6 +30,11 @@
                         </group>
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
@@ -30,61 +43,80 @@
         <field name="name">attendance.tree</field>
         <field name="model">schoolmanages.attendance</field>
         <field name="arch" type="xml">
-            <tree string="Attendance">
+            <tree string="Frekuentimi" decoration-success="status == 'present'"
+                       decoration-danger="status == 'absent'">
                 <field name="student_id" optional="show"/>
                 <field name="date" optional="show"/>
-                <field name="status" optional="show"/>
+                <field name="status" optional="show"
+                       decoration-success="status == 'present'"
+                       decoration-danger="status == 'absent'"
+                        widget="badge"/>
+                <field name="activity_ids" widget="list_activity" optional="show"/>
                 <field name="teacher_id" optional="show"/>
                 <field name="active" optional="show"/>
             </tree>
         </field>
     </record>
 
+    <record id="attendance_search_view" model="ir.ui.view">
+        <field name="name">schoolmanages.attendance.search</field>
+        <field name="model">schoolmanages.attendance</field>
+        <field name="arch" type="xml">
+            <search>
+                <searchpanel>
+                    <field name="status" icon="fa-star" select="multi" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
     <record id="attendance_kanban_view" model="ir.ui.view">
-            <field name="name">schoolmanages.attendance.kanban</field>
-            <field name="model">schoolmanages.attendance</field>
-            <field name="arch" type="xml">
-                <kanban class="o_kanban_mobile" sample="1">
-                    <field name="student_id"/>
-                    <field name="date"/>
-                    <field name="status"/>
-                    <field name="active"/>
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div t-attf-class="oe_kanban_global_click">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <strong>
-                                            <field name="student_id"/>
-                                        </strong>
-                                    </div>
-                                </div>
-                                <t t-if="record.date.value">
-                                    <hr class="mt8 mb8"/>
-                                    <b>Date: </b>
-                                    <field name="date"/>
-                                </t>
-                                <div><b>Status: </b>
-                                    <field name="status"/>
-                                    <field name="teacher_id"/>
-                                </div>
-                                <div><b>Active: </b>
-                                    <field name="active"/>
+        <field name="name">schoolmanages.attendance.kanban</field>
+        <field name="model">schoolmanages.attendance</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="student_id"/>
+                <field name="date"/>
+                <field name="status"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong>
+                                        <field name="student_id"/>
+                                    </strong>
                                 </div>
                             </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
+                            <t t-if="record.date.value">
+                                <hr class="mt8 mb8"/>
+                                <b>Date:</b>
+                                <field name="date"/>
+                            </t>
+                            <div>
+                                <b>Status:</b>
+                                <field name="status"/>
+                                <field name="teacher_id"/>
+                            </div>
+                            <div>
+                                <b>Active:</b>
+                                <field name="active"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
 
     <record id="action_attendance" model="ir.actions.act_window">
-        <field name="name">Attendance</field>
+        <field name="name">Frekuentimi</field>
         <field name="res_model">schoolmanages.attendance</field>
         <field name="view_mode">tree,kanban,form</field>
     </record>
 
 
     <menuitem id="menu_school" name="School"/>
-    <menuitem id="submenu_attendance" name="All Attendance" parent="menu_school" action="action_attendance"/>
+    <menuitem id="submenu_attendance" name="Frekuentimi" parent="menu_school" action="action_attendance" sequence="7"/>
 </odoo>
